@@ -1,7 +1,6 @@
 import { Route, Routes, Navigate } from "react-router";
 import Login from "../components/Login/login";
 import Register from "../components/Register/register";
-import ProtectedRouter from "./ProtectedRouter";
 import Dashboard from "../pages/Dashboard/dashboard";
 import Teachers from "../pages/Dashboard/Teachers";
 import Students from "../pages/Dashboard/students";
@@ -31,14 +30,7 @@ const MainRouter = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
 
-            <Route
-                path="/dashboard"
-                element={
-                    <ProtectedRouter>
-                        <Dashboard />
-                    </ProtectedRouter>
-                }
-            >
+            <Route path="/dashboard" element={<Dashboard />}>
                 <Route index element={<DashboardHome />} />
                 <Route path="teachers" element={<Teachers />} />
                 <Route path="students" element={<Students />} />

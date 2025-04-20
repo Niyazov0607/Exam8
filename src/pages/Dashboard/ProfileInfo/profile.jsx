@@ -1,39 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useSearchParams } from "react-router";
 import axios from "axios";
 import { ImCheckmark } from "react-icons/im";
 import { FaGlobe } from "react-icons/fa";
 import Navbar from "../../../components/Navbar/navbar";
 
+const api = import.meta.env.VITE_API;
+const fetchPosts = async ({ queryKey }) => {
+    const [_key, category] = queryKey;
+
+    const { data } = await axios.get(`
+  ${api}/flower/category/${category}?type=&access_token=64bebc1e2c6d3f056a8c85b7
+`);
+    return data;
+};
+
 const Profile = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [profile, setProfile] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const [searchParams] = useSearchParams();
+    const [category, setCategory] = useState(searchParams.get("category"));
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["posts", category],
+        queryFn: fetchPosts,
+    });
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            setLoading(true);
-            setError("");
-
-            try {
-                const res = await axios.get(
-                    `https://nt-devconnector.onrender.com/api/profile/user/${id}`
-                );
-                setProfile(res.data);
-            } catch (err) {
-                console.error("Error:", err);
-                setError(err.response?.data?.msg || "Issue with server");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchProfile();
-    }, [id]);
-
-    if (loading)
+    if (isLoading)
         return (
             <div className="flex flex-col items-center justify-center h-screen">
                 <div className="w-12 h-12 border-4 border-[#17a2b8] border-t-transparent rounded-full animate-spin"></div>
@@ -43,7 +36,8 @@ const Profile = () => {
             </div>
         );
 
-    if (error) return <p className="text-red-500">{error}</p>;
+    if (error) return <p className="text-red-500">{error.message}</p>;
+    if (!profile) return <p className="text-red-500">Profile not found</p>;
     if (!profile) return <p className="text-red-500">Profile not found</p>;
 
     return (
