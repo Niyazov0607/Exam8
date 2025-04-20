@@ -14,7 +14,6 @@ const FlowerList = () => {
                 "https://green-shop-backend.onrender.com/api/flower/category/small-plants?access_token=64bebc1e2c6d3f056a8c85b7&sort=default-sorting&type=all-plants&range_min=0&range_max=1000"
             )
             .then((res) => {
-                // 👉 Inspect exactly what fields you have:
                 console.log("First flower item:", res.data?.data?.[0]);
 
                 setFlowers(res.data?.data || []);

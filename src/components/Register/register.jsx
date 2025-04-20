@@ -27,7 +27,7 @@ function Register() {
         try {
             setIsLoading(true);
             const response = await axios.post(
-                `${api}/api/user/sign-up?access_token=67dbc36eaf06d13e0cde0c21`,
+                `${api}/user/sign-up?access_token=67dbc36eaf06d13e0cde0c21`,
                 {
                     email: teacher.email,
                     password: teacher.password,

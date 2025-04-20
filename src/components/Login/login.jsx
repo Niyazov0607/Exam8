@@ -18,7 +18,7 @@ function Login() {
         try {
             setIsLoading(true);
             const response = await axios.post(
-                `${api}/api/user/sign-in?access_token=67dbc36eaf06d13e0cde0c21`,
+                `${api}/user/sign-in?access_token=67dbc36eaf06d13e0cde0c21`,
                 teacher
             );
             console.log(response.data);
